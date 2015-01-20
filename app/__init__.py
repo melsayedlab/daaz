@@ -1,13 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask.ext.bootstrap import Bootstrap
-from flask.ext.script import Manager, Shell
-from flask.ext.wtf import Form
+from flask.ext.script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
 from config import config
+from flask.ext.login import LoginManager
 
 manager = Manager()
 bootstrap = Bootstrap()
 daazdb = SQLAlchemy()
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'authentication.login'
+
 
 def factory_fn(config_name):
     app = Flask(__name__)
@@ -15,9 +19,12 @@ def factory_fn(config_name):
     config[config_name].init_app(app)
     bootstrap.init_app(app)
     daazdb.init_app(app)
+    login_manager.init_app(app)
 
     # routes here - register with blueprint
     from main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+    from authentication import authentication as login_auth
+    app.register_blueprint(login_auth)
 
     return app

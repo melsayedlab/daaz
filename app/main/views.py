@@ -1,17 +1,9 @@
-from flask import Flask, session, url_for, flash, render_template
+from flask import render_template
+from flask.ext.login import login_required
 from . import main
-from .forms import LoginForm
-from .. import daazdb
-from ..models import Users
 
-@main.route('/', methods=['GET', 'POST'])
+
+@main.route('/', methods=['GET'])
+@login_required
 def index():
-    loginform = LoginForm()
-    if loginform.validate_on_submit():
-        #check if the user in the database
-        user = Users.query.filter_by(name=loginform.username.data).first()
-        #check the password
-        password = Users.query.filter_by(password=loginform.password.data).first()
-        if user is None or password is None:
-            flash('username or password not correct!')
-    return render_template('index.html', loginform=loginform)
+    return render_template('index.html')

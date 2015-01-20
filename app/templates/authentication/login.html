@@ -6,6 +6,8 @@
 {% block page_content %}
 <div class="page-header">
 <h1>D . a . a . Z</h1>
-<h2>This is the index page</h2>
 </div>
+{{ wtf.quick_form(loginform) }}
+<br></br>
+<a href="{{ url_for('authentication.login') }}">Sign Up</a>
 {% endblock %}

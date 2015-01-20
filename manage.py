@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-from app import factory_fn, daazdb
-from app.models import Users
+from app import factory_fn
 from flask.ext.script import Manager, Shell
+from app.models import Users
+
 
 app = factory_fn('default')
 manager = Manager(app)

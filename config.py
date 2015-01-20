@@ -11,9 +11,9 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     dbhost = 'daazdb'
-    db = 'daaz-dev'
+    db = 'daazdev'
     dbuser = 'daazuser'
-    dbpass = 'd44z'
+    dbpass = 'daaz'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DAAZDB-DEV') or 'mysql://'+dbuser+':'+dbpass+'@'+dbhost+'/'+db
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
@@ -25,7 +25,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     dbhost = 'daazdb'
-    db = 'daaz-test'
+    db = 'daaztest'
     dbuser = 'daazuser'
     dbpass = 'd44z'
     SQLALCHEMY_DATABASE_URI =os.environ.get('DAAZDB-TEST') or 'mysql://'+dbuser+':'+dbpass+'@'+dbhost+'/'+db
@@ -43,4 +43,5 @@ config = {
 'development': DevelopmentConfig,
 'testing': TestingConfig,
 'production': ProductionConfig,
+
 'default': DevelopmentConfig }
