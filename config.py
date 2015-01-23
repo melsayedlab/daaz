@@ -14,7 +14,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     dbhost = 'daazdb'
-    db = 'daazdev'
+    db = 'daaz_dev'
     dbuser = 'daazuser'
     dbpass = 'daaz'
     SQLALCHEMY_DATABASE_URI = os.environ.get(

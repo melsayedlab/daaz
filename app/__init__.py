@@ -5,6 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from config import config
 from flask.ext.login import LoginManager
 
+
 manager = Manager()
 bootstrap = Bootstrap()
 daazdb = SQLAlchemy()
