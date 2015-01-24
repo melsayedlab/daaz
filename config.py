@@ -22,9 +22,8 @@ class DevelopmentConfig(Config):
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get(
-        'MAIL_USERNAME') or 'hussein.galal.ahmed.11@gmail.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'you-wish'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
 
 class TestingConfig(Config):
