@@ -1,5 +1,6 @@
-from flask import render_template, redirect, url_for, flash
-from flask.ext.login import login_user, logout_user, login_required
+from flask import render_template, redirect, url_for,flash
+from flask.ext.login import login_user, logout_user, login_required, current_user
+from ..email import send_mail
 from . import authentication
 from .forms import LoginForm, SignupForm
 from .. import daazdb
@@ -37,8 +38,19 @@ def signup():
         newuser.name = signupform.username.data
         newuser.password = signupform.password.data
         daazdb.session.add(newuser)
-        # wait to commit untill email confirmation
         daazdb.session.commit()
-        flash('Congratulations, You are now a new member of DaaZ')
-
+        confirm_token = newuser.create_token()
+        send_mail(newuser.email, 'Confirmation Email', 'authentication/email/confirm', newuser=newuser, confirm_token=confirm_token)
+        flash('Confirmation email has been sent !.')
+        return redirect(url_for('main.index'))
     return render_template('authentication/signup.html', signupform=signupform)
+
+@authentication.route('/confirm/<token>')
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        flash("You have successfully activated your account.")
+    else:
+        flash("The link is invalid or expired, please try to sign up again.")
+    return redirect(url_for('main.index'))

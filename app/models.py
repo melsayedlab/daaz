@@ -1,7 +1,10 @@
 from . import daazdb
 from . import login_manager
+from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from . import daazdb
 
 # a callback function which will be used with the extenstion
 
@@ -19,7 +22,25 @@ class Users(UserMixin, daazdb.Model):
     email = daazdb.Column(daazdb.String(64), unique=True)
     name = daazdb.Column(daazdb.String(64), unique=True)
     pass_hash = daazdb.Column(daazdb.String(128))
+    confirmed = daazdb.Column(daazdb.Boolean,default=False)
 
+    def create_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': self.id})
+
+
+    def confirm(self, confirm_token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data_id = s.loads(confirm_token)
+        except:
+            return False
+        if data_id.get('confirm') != self.id:
+            return False
+        else:
+            self.confirmed = True
+            daazdb.session.add(self)
+            return True
     @property
     def password(self):
         raise AttributeError('password is a write only attribute')

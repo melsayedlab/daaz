@@ -2,13 +2,14 @@ from flask import Flask
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
-from config import config
+from flask.ext.mail import Mail
 from flask.ext.login import LoginManager
-
+from config import config
 
 manager = Manager()
 bootstrap = Bootstrap()
 daazdb = SQLAlchemy()
+mail = Mail()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'authentication.login'
@@ -19,6 +20,7 @@ def factory_fn(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
     bootstrap.init_app(app)
+    mail.init_app(app)
     daazdb.init_app(app)
     login_manager.init_app(app)
 

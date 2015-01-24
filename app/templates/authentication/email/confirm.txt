@@ -1,0 +1,11 @@
+Hello {{ newuser.name }},
+
+This is confirmation email to activate your account.
+
+To confirm your account please click on the following link:
+
+{{ url_for('authentication.confirm', token=confirm_token, _external=True) }}
+
+Regards,
+
+DaaZ Support :)
