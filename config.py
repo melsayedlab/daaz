@@ -13,17 +13,22 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    # Database Options
     dbhost = 'daazdb'
     db = 'daaz_dev'
     dbuser = 'daazuser'
     dbpass = 'daaz'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DAAZDB-DEV') or 'mysql://' + dbuser + ':' + dbpass + '@' + dbhost + '/' + db
+    # Mail Options
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    # Uploading File Options
+    UPLOAD_FOLDER = '/tmp'
+
 
 
 class TestingConfig(Config):
@@ -34,6 +39,7 @@ class TestingConfig(Config):
     dbpass = 'd44z'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DAAZDB-TEST') or 'mysql://' + dbuser + ':' + dbpass + '@' + dbhost + '/' + db
+
 
 
 class ProductionConfig(Config):

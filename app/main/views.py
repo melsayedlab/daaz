@@ -1,9 +1,26 @@
-from flask import render_template
+from flask import render_template, flash
 from flask.ext.login import login_required
+from .forms import UploadForm
 from . import main
+from werkzeug import secure_filename
+
+ALLOWED_EXTENSIONS = set(['zip'])
 
 
-@main.route('/', methods=['GET'])
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+@main.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-    return render_template('index.html')
+    uploadform = UploadForm()
+    if uploadform.validate_on_submit():
+        if uploadform.file and allowed_file(uploadform.file.data.filename):
+            filename = secure_filename(uploadform.file.data.filename)
+            uploadform.file.data.save('/tmp/' + filename)
+            flash("The File has been uploaded")
+        else:
+            flash("Error! You are trying to upload wrong extension")
+    return render_template('index.html', uploadform=uploadform)
