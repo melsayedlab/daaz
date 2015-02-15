@@ -2,6 +2,7 @@ from flask import render_template, flash
 from flask.ext.login import login_required
 from .forms import UploadForm
 from . import main
+from dockerize import dockerize
 from werkzeug import secure_filename
 
 ALLOWED_EXTENSIONS = set(['zip'])
@@ -20,7 +21,8 @@ def index():
         if uploadform.file and allowed_file(uploadform.file.data.filename):
             filename = secure_filename(uploadform.file.data.filename)
             uploadform.file.data.save('/tmp/' + filename)
-            flash("The File has been uploaded")
+            cntnr_id = dockerize('/tmp/' + filename)
+            flash("The app has been Dockerized..")
         else:
             flash("Error! You are trying to upload wrong extension")
     return render_template('index.html', uploadform=uploadform)
