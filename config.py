@@ -28,7 +28,10 @@ class DevelopmentConfig(Config):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     # Uploading File Options
     UPLOAD_FOLDER = '/tmp'
-
+    GITHUB_BASE_URL = 'https://api.github.com/'
+    GITHUB_AUTH_URL = 'https://github.com/login/oauth/'
+    GITHUB_CLIENT_ID = 'XXX'
+    GITHUB_CLIENT_SECRET = 'YYY'
 
 
 class TestingConfig(Config):
@@ -50,6 +53,16 @@ class ProductionConfig(Config):
     dbpass = 'd44z'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DAAZDB-PROD') or 'mysql://' + dbuser + ':' + dbpass + '@' + dbhost + '/' + db
+    # Mail Options
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    # Uploading File Options
+    UPLOAD_FOLDER = '/tmp'
+    GITHUB_BASE_URL = 'https://api.github.com/'
+    GITHUB_AUTH_URL = 'https://github.com/login/oauth/'
 
 # Will be imported in the factory fn
 config = {

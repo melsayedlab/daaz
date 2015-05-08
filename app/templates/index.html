@@ -11,6 +11,8 @@
 <form action="/" method="POST" enctype="multipart/form-data">
 {{ wtf.quick_form(uploadform) }}
 </form>
+<h2 align="center">Or Use Github Auth</h2>
+{{ wtf.quick_form(githubform) }}
 <dev style="color:red">Note: only .zip files are allowed</dev>
 </div>
 {% endblock %}
