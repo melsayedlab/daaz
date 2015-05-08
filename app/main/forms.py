@@ -10,6 +10,6 @@ class UploadForm(Form):
 
 
 class GithubForm(Form):
-    github_auth = SubmitField("Authenticate with Github")
-    github_client_id = StringField('Github Client ID', validators=[Required()])
-    github_client_secret = StringField('Github Client Secret', validators=[Required()])
+    github_repo_url = StringField('Github Repo URL', validators=[Required()])
+    github_auth = SubmitField("Clone from Github")
+
